@@ -2,4 +2,8 @@
 # Example URLs (uncomment to test):
 
 https://xkcd.com
-https://www.wikipedia.org
+https://en.wikipedia.org/wiki/Chaos_magic
+https://zoomblr.com/tumblr-viewer/pixopix
+https://www.tumblr.com/tagged/esoteric%20memes
+https://zoomblr.com/tumblr-viewer/jellobiafrasays
+https://www.sigstick.com/pack/MtD5NQE7Op795UQFoGV3-wojaks
