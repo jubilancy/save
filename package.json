@@ -17,6 +17,7 @@
     "metascraper-description": "^5.29.2",
     "metascraper-image": "^5.29.2",
     "metascraper-title": "^5.29.2",
+    "playwright": "^1.40.0",
     "rss-parser": "^3.13.0",
     "turndown": "^7.1.2"
   },
