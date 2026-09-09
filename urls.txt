@@ -1,6 +1,5 @@
 # Add URLs one per line. URLs starting with # are comments.
 # Example URLs (uncomment to test):
 
-https://example.com
-https://news.ycombinator.com
 https://xkcd.com
+https://www.wikipedia.org
