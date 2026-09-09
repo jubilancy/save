@@ -1,0 +1,26 @@
+{
+  "name": "url-scraper",
+  "version": "1.0.0",
+  "description": "Scrape URLs to markdown with GitHub Actions automation",
+  "type": "module",
+  "scripts": {
+    "scrape": "node scripts/scrape.js",
+    "scrape:force": "node scripts/scrape.js --force"
+  },
+  "keywords": ["scraper", "markdown", "crawlee"],
+  "dependencies": {
+    "crawlee": "^3.10.0",
+    "got-scraping": "^4.1.5",
+    "metascraper": "^5.29.2",
+    "metascraper-author": "^5.29.2",
+    "metascraper-date": "^5.29.2",
+    "metascraper-description": "^5.29.2",
+    "metascraper-image": "^5.29.2",
+    "metascraper-title": "^5.29.2",
+    "rss-parser": "^3.13.0",
+    "turndown": "^7.1.2"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+}
