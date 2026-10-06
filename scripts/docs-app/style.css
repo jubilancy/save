@@ -1,0 +1,17 @@
+:root{--bg:#fff;--fg:#1c1c1e;--mut:#6b6b73;--bd:#e4e4e8;--ac:#4f46e5;--sb:#f7f7f9;--code:#f1f1f4}
+@media(prefers-color-scheme:dark){:root{--bg:#121214;--fg:#e8e8ec;--mut:#9a9aa5;--bd:#2a2a30;--ac:#8b85ff;--sb:#18181b;--code:#222226}}
+*{box-sizing:border-box}body{margin:0;font:16px/1.65 system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+a{color:var(--ac)}header{display:flex;gap:16px;align-items:center;padding:10px 20px;border-bottom:1px solid var(--bd)}
+header a.brand{font-weight:700;text-decoration:none;color:var(--fg)}
+#q{margin-left:auto;width:min(320px,50vw);padding:7px 10px;border:1px solid var(--bd);border-radius:6px;background:var(--bg);color:var(--fg)}
+#res{position:absolute;right:20px;top:52px;width:min(420px,calc(100vw - 40px));max-height:70vh;overflow:auto;background:var(--bg);border:1px solid var(--bd);border-radius:8px;display:none;z-index:5}
+#res a{display:block;padding:8px 12px;text-decoration:none;color:var(--fg);border-bottom:1px solid var(--bd)}#res small{color:var(--mut);display:block}
+.layout{display:flex;max-width:1200px;margin:0 auto}nav.side{width:270px;flex:none;padding:20px;border-right:1px solid var(--bd);background:var(--sb);min-height:calc(100vh - 53px);font-size:14px}
+nav.side h4{margin:0 0 10px}nav.side a{display:block;padding:3px 0;text-decoration:none;color:var(--fg)}nav.side a.cur{color:var(--ac);font-weight:600}
+nav.side summary{cursor:pointer;color:var(--mut);margin-top:8px}main{flex:1;min-width:0;padding:28px 36px}
+main img{max-width:100%;height:auto}pre{overflow:auto;background:var(--code);padding:12px;border-radius:6px}code{background:var(--code);padding:1px 4px;border-radius:4px}pre code{padding:0}
+table{border-collapse:collapse;display:block;overflow:auto}td,th{border:1px solid var(--bd);padding:6px 10px}
+.src{color:var(--mut);font-size:13px;margin-bottom:20px}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{border:1px solid var(--bd);border-radius:8px;padding:14px;text-decoration:none;color:var(--fg)}.card small{color:var(--mut);display:block}
+@media(max-width:800px){.layout{flex-direction:column}nav.side{width:auto;min-height:0;border-right:0;border-bottom:1px solid var(--bd)}main{padding:20px 16px}}
+.err{color:var(--mut)}nav.side a.cur{color:var(--ac)}
