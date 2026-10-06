@@ -78,6 +78,11 @@ async function main() {
 
   for (const f of ['style.css', 'app.js']) await cp(join(APP, f), join(OUT, f));
   await cp('node_modules/marked/lib/marked.umd.js', join(OUT, 'marked.js'));
+  await mkdir(join(OUT, 'fonts'), { recursive: true });
+  for (const w of [400, 600]) {
+    const f = `overpass-mono-latin-${w}-normal.woff2`;
+    await cp(join('node_modules/@fontsource/overpass-mono/files', f), join(OUT, 'fonts', f));
+  }
   const shell = (await readFile(join(APP, 'index.html'), 'utf8')).replace('__BASE__', BASE);
   await writeFile(join(OUT, 'index.html'), shell);
   await writeFile(join(OUT, '404.html'), shell); // GitHub Pages serves this for unknown paths, so deep links reach the app

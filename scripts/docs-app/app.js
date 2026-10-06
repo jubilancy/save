@@ -168,4 +168,21 @@ q.addEventListener('input', async () => {
 });
 document.addEventListener('click', (e) => { if (!res.contains(e.target) && e.target !== q) res.style.display = 'none'; });
 
+// '/' focuses search from anywhere (unless already typing); arrows + Enter pick a result; Esc closes.
+document.addEventListener('keydown', (e) => {
+  const t = e.target, typing = t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);
+  if (e.key === '/' && !typing && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); q.focus(); q.select(); }
+});
+q.addEventListener('keydown', (e) => {
+  const items = [...res.querySelectorAll('a')], cur = items.findIndex((a) => a.classList.contains('sel'));
+  if (e.key === 'Escape') { res.style.display = 'none'; q.blur(); return; }
+  if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'Enter') return;
+  if (!items.length || res.style.display === 'none') return;
+  e.preventDefault();
+  if (e.key === 'Enter') { (items[cur] || items[0]).click(); q.blur(); return; }
+  const next = e.key === 'ArrowDown' ? (cur + 1) % items.length : (cur - 1 + items.length) % items.length;
+  items.forEach((a, i) => a.classList.toggle('sel', i === next));
+  items[next].scrollIntoView({ block: 'nearest' });
+});
+
 render().catch(() => { main.innerHTML = '<p class="err">Could not load the site index.</p>'; });
