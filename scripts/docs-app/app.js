@@ -17,6 +17,63 @@ marked.use({
   },
 });
 
+// A link alone in its paragraph becomes an embed (video/audio players) or a link card (social posts).
+// Embeds are limited to hosts allowed by the CSP frame-src in index.html; nothing third-party runs as script on this page.
+function embedFor(href) {
+  let u; try { u = new URL(href); } catch { return null; }
+  const h = u.hostname.replace(/^www\.|^m\./, '');
+  const seg = u.pathname.split('/').filter(Boolean);
+  const id = /^[\w-]{6,}$/;
+  if (h === 'youtu.be' && id.test(seg[0] || '')) return { kind: 'frame', src: `https://www.youtube-nocookie.com/embed/${seg[0]}`, ratio: '16/9' };
+  if (h === 'youtube.com') {
+    const v = u.pathname === '/watch' ? u.searchParams.get('v') : ['embed', 'shorts', 'live'].includes(seg[0]) ? seg[1] : null;
+    if (v && id.test(v)) return { kind: 'frame', src: `https://www.youtube-nocookie.com/embed/${v}`, ratio: '16/9' };
+  }
+  if (h === 'vimeo.com' && /^\d+$/.test(seg[0] || '')) return { kind: 'frame', src: `https://player.vimeo.com/video/${seg[0]}`, ratio: '16/9' };
+  if (h === 'open.spotify.com') {
+    const i = ['track', 'album', 'playlist', 'episode', 'show', 'artist'].includes(seg[0]) ? 1 : (seg[0] || '').startsWith('intl-') ? 2 : -1;
+    const kind = seg[i - 1 < 0 ? 0 : i - 1], sid = seg[i];
+    if (i > 0 && /^\w{10,}$/.test(sid || '')) return { kind: 'frame', src: `https://open.spotify.com/embed/${kind}/${sid}`, height: kind === 'track' || kind === 'episode' ? 152 : 352 };
+  }
+  const social = { 'twitter.com': 'Twitter / X', 'x.com': 'Twitter / X', 'instagram.com': 'Instagram' }[h];
+  if (social) return { kind: 'card', label: social, path: u.pathname.replace(/\/$/, '') || '/' };
+  return null;
+}
+
+function embedLinks(root) {
+  for (const p of root.querySelectorAll('p')) {
+    const kids = [...p.childNodes].filter((n) => n.nodeType !== 3 || n.textContent.trim());
+    if (kids.length !== 1 || kids[0].nodeName !== 'A') continue;
+    const a = kids[0], e = embedFor(a.getAttribute('href'));
+    if (!e) continue;
+    const box = document.createElement('div');
+    if (e.kind === 'frame') {
+      box.className = 'embed';
+      const f = document.createElement('iframe');
+      f.src = e.src; f.loading = 'lazy'; f.referrerPolicy = 'strict-origin-when-cross-origin'; f.allowFullscreen = true;
+      f.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation allow-popups');
+      f.setAttribute('allow', 'encrypted-media; picture-in-picture; fullscreen');
+      f.title = a.textContent.trim() || 'Embedded media';
+      if (e.ratio) f.style.aspectRatio = e.ratio; else f.style.height = e.height + 'px';
+      box.append(f);
+      const cap = document.createElement('a');
+      cap.href = a.href; cap.rel = 'noopener'; cap.textContent = 'Open original'; cap.className = 'cap';
+      box.append(cap);
+    } else {
+      box.className = 'card social';
+      a.rel = 'noopener';
+      const b = document.createElement('b'); b.textContent = e.label;
+      const s = document.createElement('small'); s.textContent = e.path;
+      const t = document.createElement('span'); t.textContent = a.textContent.trim() !== a.getAttribute('href') ? a.textContent.trim() : '';
+      box.append(b, s, t);
+      box.addEventListener('click', () => window.open(a.href, '_blank', 'noopener'));
+      box.tabIndex = 0; box.setAttribute('role', 'link');
+      box.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') window.open(a.href, '_blank', 'noopener'); });
+    }
+    p.replaceWith(box);
+  }
+}
+
 const stripFront = (t) => t.replace(/^---\n[\s\S]*?\n---\n?/, '');
 const pageHref = (site, p) => `${BASE}${site.name}/${p.slug}/`;
 const siteHref = (site) => `${BASE}${site.name}/`;
@@ -77,6 +134,7 @@ async function render() {
     if (t) { a.setAttribute('href', pageHref(site, t)); a.dataset.link = ''; } else a.rel = 'noopener';
   }
   for (const i of tpl.content.querySelectorAll('img')) i.loading = 'lazy';
+  embedLinks(tpl.content);
   const src = page.url ? `<div class="src">Source: <a href="${esc(page.url)}" rel="noopener">${esc(page.url)}</a> · <a href="${esc(`${BASE}${site.name}/${page.path}`)}">raw markdown</a></div>` : '';
   main.innerHTML = src;
   main.append(tpl.content);
