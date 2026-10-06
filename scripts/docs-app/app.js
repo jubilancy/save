@@ -106,8 +106,12 @@ async function render() {
 
   if (!parts.length) {
     setTitle('');
-    main.innerHTML = `<h1>Knowledge Bases</h1><div class="cards">${DATA.sites.map((s) =>
-      `<a class="card" data-link href="${siteHref(s)}"><b>${esc(s.name)}</b><small>${s.pages.length} pages</small></a>`).join('') || '<p>No sites yet.</p>'}</div>`;
+    const total = DATA.sites.reduce((n, x) => n + x.pages.length, 0);
+    const host = (u) => { try { return new URL(u).hostname; } catch { return ''; } };
+    main.innerHTML = `<section class="hero"><p class="eyebrow">markdown, rendered</p><h1>Knowledge Bases</h1>
+      <p class="lede">${DATA.sites.length} site${DATA.sites.length === 1 ? '' : 's'} and ${total} pages, scraped to markdown and kept readable, searchable and linkable.</p>
+      <p class="hint">Press <kbd>/</kbd> to search everything.</p></section>
+      <div class="cards">${DATA.sites.map((x) => `<a class="card" data-link href="${siteHref(x)}"><b>${esc(x.name)}</b><small>${esc(host(x.source))}</small><small>${x.pages.length} pages</small></a>`).join('') || '<p>No sites yet.</p>'}</div>`;
     return;
   }
   if (!site) { main.innerHTML = '<p class="err">Site not found.</p>'; return; }
@@ -138,6 +142,14 @@ async function render() {
   const src = page.url ? `<div class="src">Source: <a href="${esc(page.url)}" rel="noopener">${esc(page.url)}</a> · <a href="${esc(`${BASE}${site.name}/${page.path}`)}">raw markdown</a></div>` : '';
   main.innerHTML = src;
   main.append(tpl.content);
+  const i = site.pages.indexOf(page), prev = site.pages[i - 1], next = site.pages[i + 1];
+  if (prev || next) {
+    const pager = document.createElement('nav');
+    pager.className = 'pager';
+    pager.innerHTML = (prev ? `<a data-link class="prev" href="${pageHref(site, prev)}"><small>← Previous</small>${esc(prev.title)}</a>` : '<span></span>')
+      + (next ? `<a data-link class="next" href="${pageHref(site, next)}"><small>Next →</small>${esc(next.title)}</a>` : '<span></span>');
+    main.append(pager);
+  }
 }
 
 function go(href) { history.pushState(null, '', href); render(); }
@@ -186,3 +198,13 @@ q.addEventListener('keydown', (e) => {
 });
 
 render().catch(() => { main.innerHTML = '<p class="err">Could not load the site index.</p>'; });
+
+// Reading progress bar.
+const bar = document.getElementById('progress');
+const tick = () => {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  bar.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
+};
+addEventListener('scroll', tick, { passive: true });
+addEventListener('resize', tick);
+new MutationObserver(tick).observe(main, { childList: true });
