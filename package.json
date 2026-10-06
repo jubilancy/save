@@ -5,9 +5,15 @@
   "type": "module",
   "scripts": {
     "scrape": "node scripts/scrape.js",
-    "scrape:force": "node scripts/scrape.js --force"
+    "scrape:force": "node scripts/scrape.js --force",
+    "docs:build": "node scripts/build-docs.mjs",
+    "docs:serve": "node scripts/build-docs.mjs && npx --yes http-server site -p 8080"
   },
-  "keywords": ["scraper", "markdown", "crawlee"],
+  "keywords": [
+    "scraper",
+    "markdown",
+    "crawlee"
+  ],
   "dependencies": {
     "crawlee": "^3.10.0",
     "got-scraping": "^4.1.5",
@@ -22,6 +28,7 @@
     "turndown": "^7.1.2"
   },
   "devDependencies": {
+    "marked": "^15.0.12",
     "prettier": "^3.2.5"
   }
 }
