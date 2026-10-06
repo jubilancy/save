@@ -1,0 +1,191 @@
+{
+  "source": "https://memeanalysis.webflow.io/",
+  "pages": [
+    {
+      "url": "https://memeanalysis.webflow.io/about",
+      "path": "about/index.md",
+      "title": "About",
+      "chars": 1365
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/alien",
+      "path": "alien/index.md",
+      "title": "Alien",
+      "chars": 1243
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/alien-ii",
+      "path": "alien-ii/index.md",
+      "title": "Alien II",
+      "chars": 1821
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/alienation",
+      "path": "alienation/index.md",
+      "title": "Alienation",
+      "chars": 81
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/codex",
+      "path": "codex/index.md",
+      "title": "Codex",
+      "chars": 63730
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/conspiracy",
+      "path": "conspiracy/index.md",
+      "title": "Conspiracy",
+      "chars": 81
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/extraterrestrial",
+      "path": "extraterrestrial/index.md",
+      "title": "Extraterrestrial",
+      "chars": 2382
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/fairys",
+      "path": "fairys/index.md",
+      "title": "Fairys",
+      "chars": 3188
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/fetishism",
+      "path": "fetishism/index.md",
+      "title": "Fetishism",
+      "chars": 79
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/gaming",
+      "path": "gaming/index.md",
+      "title": "Gaming",
+      "chars": 73
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/home",
+      "path": "home/index.md",
+      "title": "Home",
+      "chars": 3279
+    },
+    {
+      "url": "https://memeanalysis.webflow.io",
+      "path": "home-root/index.md",
+      "title": "Meme Analysis | Explore the Myth Of The Internet",
+      "chars": 28496
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/memetics",
+      "path": "memetics/index.md",
+      "title": "Memetics",
+      "chars": 37372
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/minotaur",
+      "path": "minotaur/index.md",
+      "title": "Minotaur",
+      "chars": 1666
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/minotaur-ii",
+      "path": "minotaur-ii/index.md",
+      "title": "Minotaur II",
+      "chars": 3203
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/minotaur-iii",
+      "path": "minotaur-iii/index.md",
+      "title": "Minotaur III",
+      "chars": 46280
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/minotaur-iv",
+      "path": "minotaur-iv/index.md",
+      "title": "Minotaur IV",
+      "chars": 2643
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/moloch",
+      "path": "moloch/index.md",
+      "title": "Moloch",
+      "chars": 1464
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/moloch-ii",
+      "path": "moloch-ii/index.md",
+      "title": "Moloch II",
+      "chars": 1102
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/moloch-iii",
+      "path": "moloch-iii/index.md",
+      "title": "Moloch III",
+      "chars": 863
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/moloch-iv",
+      "path": "moloch-iv/index.md",
+      "title": "Moloch IV",
+      "chars": 2067
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/myth",
+      "path": "myth/index.md",
+      "title": "Myth",
+      "chars": 7300
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/myth-test-sandbox",
+      "path": "myth-test-sandbox/index.md",
+      "title": "Myth Test Sandbox",
+      "chars": 997
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/satyr",
+      "path": "satyr/index.md",
+      "title": "Satyrs",
+      "chars": 3995
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/sirens",
+      "path": "sirens/index.md",
+      "title": "Sirens",
+      "chars": 2158
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/spider",
+      "path": "spider/index.md",
+      "title": "The Spider | Myth Of The Internet",
+      "chars": 1406
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/spider-ii",
+      "path": "spider-ii/index.md",
+      "title": "Spider II",
+      "chars": 2380
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/spider-iii",
+      "path": "spider-iii/index.md",
+      "title": "Spider III",
+      "chars": 1373
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/test-js-test",
+      "path": "test-js-test/index.md",
+      "title": "Test JS test",
+      "chars": 17570
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/test-sandbox",
+      "path": "test-sandbox/index.md",
+      "title": "Test Sandbox",
+      "chars": 362
+    },
+    {
+      "url": "https://memeanalysis.webflow.io/text-legend",
+      "path": "text-legend/index.md",
+      "title": "Text Legend",
+      "chars": 946
+    }
+  ]
+}
