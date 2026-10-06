@@ -7,3 +7,4 @@ node_modules/
 # Crawlee cache and storage
 storage/
 .crawlee/
+site/
