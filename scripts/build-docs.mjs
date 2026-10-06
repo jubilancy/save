@@ -69,7 +69,7 @@ function layout({ title, depth, sidebar, content, siteName }) {
   return `<!doctype html><html lang="en" data-root="${r}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src * data:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self'">
 <title>${esc(title)}${siteName ? ' · ' + esc(siteName) : ''}</title><link rel="stylesheet" href="${r}style.css"></head><body>
-<header><a class="brand" href="${r}index.html">Knowledge Bases</a><input id="q" type="search" placeholder="Search all sites…" aria-label="Search"><div id="res"></div></header>
+<header><a class="brand" href="${r}">Knowledge Bases</a><input id="q" type="search" placeholder="Search all sites…" aria-label="Search"><div id="res"></div></header>
 <div class="layout">${sidebar || ''}<main>${content}</main></div><script src="${r}search.js"></script></body></html>`;
 }
 
@@ -82,8 +82,8 @@ function sidebarFor(site, curPath, depth) {
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(p);
   }
-  const link = (p) => `<a href="${r}${site.name}/${p.slug}"${p.path === curPath ? ' class="cur"' : ''}>${esc(p.title)}</a>`;
-  let html = `<nav class="side"><h4><a href="${r}${site.name}/index.html">${esc(site.name)}</a></h4>`;
+  const link = (p) => `<a href="${r}${site.name}/${p.href}"${p.path === curPath ? ' class="cur"' : ''}>${esc(p.title)}</a>`;
+  let html = `<nav class="side"><h4><a href="${r}${site.name}/">${esc(site.name)}</a></h4>`;
   for (const [key, pages] of groups) {
     // single-page folders (the common case) render flat; real nesting renders as a collapsible group
     html += pages.length > 1 && key ? `<details${pages.some((p) => p.path === curPath) ? ' open' : ''}><summary>${esc(key)}</summary>${pages.map(link).join('')}</details>` : pages.map(link).join('');
@@ -108,7 +108,7 @@ async function loadSite(name) {
     const { front, body } = parseFront(await readFile(f, 'utf8'));
     const h1 = body.match(/^#\s+(.+)$/m)?.[1];
     const title = front.title || meta.get(path)?.title || h1 || dirPath;
-    pages.push({ path, slug: `${dirPath}/index.html`, title, url: front.source || meta.get(path)?.url || '', body });
+    pages.push({ path, slug: `${dirPath}/index.html`, href: `${dirPath}/`, title, url: front.source || meta.get(path)?.url || '', body });
   }
   pages.sort((a, b) => dirname(a.path).localeCompare(dirname(b.path)));
   // Webflow-style sites reuse one <title> everywhere; fall back to the page's folder name when titles collide.
@@ -138,22 +138,22 @@ async function main() {
       const depth = 1 + p.slug.split('/').length - 1;
       const rewrite = (html) => html.replace(/href="(https?:\/\/[^"]+)"/g, (m, u) => {
         const t = byUrl.get(u.replace(/\/$/, '').split('#')[0]);
-        return t ? `href="${root(depth)}${site.name}/${t.slug}"` : m;
+        return t ? `href="${root(depth)}${site.name}/${t.href}"` : m;
       });
       const content = `<div class="src">Source: ${p.url ? `<a href="${esc(p.url)}" rel="noopener">${esc(p.url)}</a>` : esc(p.path)}</div>${rewrite(marked.parse(p.body))}`;
       const html = layout({ title: p.title, depth, sidebar: sidebarFor(site, p.path, depth), content, siteName: site.name });
       const out = join(OUT, site.name, p.slug);
       await mkdir(dirname(out), { recursive: true });
       await writeFile(out, html);
-      search.push({ t: p.title, s: site.name, u: `${site.name}/${p.slug}`, x: strip(p.body).slice(0, 3000) });
+      search.push({ t: p.title, s: site.name, u: `${site.name}/${p.href}`, x: strip(p.body).slice(0, 3000) });
     }
-    const list = site.pages.map((p) => `<li><a href="${p.slug}">${esc(p.title)}</a></li>`).join('');
+    const list = site.pages.map((p) => `<li><a href="${p.href}">${esc(p.title)}</a></li>`).join('');
     await writeFile(join(OUT, site.name, 'index.html'), layout({
       title: site.name, depth: 1, siteName: '', sidebar: sidebarFor(site, '', 1),
       content: `<h1>${esc(site.name)}</h1>${site.source ? `<p class="src">Source: <a href="${esc(site.source)}" rel="noopener">${esc(site.source)}</a> · ${site.pages.length} pages</p>` : ''}<ul>${list}</ul>`,
     }));
   }
-  const cards = sites.map((s) => `<a class="card" href="${s.name}/index.html"><b>${esc(s.name)}</b><small>${s.pages.length} pages</small></a>`).join('');
+  const cards = sites.map((s) => `<a class="card" href="${s.name}/"><b>${esc(s.name)}</b><small>${s.pages.length} pages</small></a>`).join('');
   await writeFile(join(OUT, 'index.html'), layout({ title: 'Knowledge Bases', depth: 0, content: `<h1>Knowledge Bases</h1><div class="cards">${cards || '<p>No sites yet.</p>'}</div>` }));
   await writeFile(join(OUT, 'search.json'), JSON.stringify(search));
   console.log(`Built ${sites.length} site(s), ${search.length} page(s) -> ${OUT}/`);
